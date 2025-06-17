@@ -11,6 +11,12 @@ class AppWidget extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Color.fromRGBO(07, 94, 84, 1)),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Color.fromRGBO(07, 94, 84, 1),
+          foregroundColor: Colors.white,
+          elevation: 2,
+          shadowColor: Colors.black
+        )
       ),
       home: LoginPage(),
     );

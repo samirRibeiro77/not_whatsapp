@@ -14,8 +14,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
       appBar: AppBar(
         title: Text("Registration"),
         backgroundColor: Theme.of(context).colorScheme.primary,
-        elevation: 1,
-        shadowColor: Colors.black,
       ),
       body: Container(
         padding: EdgeInsets.all(16),
