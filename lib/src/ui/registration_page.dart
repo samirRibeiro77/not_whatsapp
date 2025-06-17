@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:not_whatsapp/src/ui/registration_page.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegistrationPage extends StatefulWidget {
+  const RegistrationPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegistrationPage> createState() => _RegistrationPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegistrationPageState extends State<RegistrationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Registration"),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        elevation: 1,
+        shadowColor: Colors.black,
+      ),
       body: Container(
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(color: Theme.of(context).colorScheme.primary),
@@ -20,10 +25,24 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Image.asset("assets/images/logo.png", width: 200, height: 150),
+                Image.asset("assets/images/usuario.png", width: 200, height: 150),
                 SizedBox(child: Container(height: 32)),
                 TextField(
                   autofocus: true,
+                  keyboardType: TextInputType.emailAddress,
+                  style: TextStyle(fontSize: 20),
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.fromLTRB(32, 16, 32, 16),
+                    hintText: "Name",
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(32),
+                    ),
+                  ),
+                ),
+                SizedBox(child: Container(height: 8)),
+                TextField(
                   keyboardType: TextInputType.emailAddress,
                   style: TextStyle(fontSize: 20),
                   decoration: InputDecoration(
@@ -62,25 +81,10 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   child: Text(
-                    "Login",
+                    "Create",
                     style: TextStyle(color: Colors.white, fontSize: 20),
                   ),
-                ),
-                SizedBox(child: Container(height: 8)),
-                Center(
-                  child: GestureDetector(
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RegistrationPage(),
-                      ),
-                    ),
-                    child: Text(
-                      "Doesn't have an account? Create one",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
+                )
               ],
             ),
           ),
