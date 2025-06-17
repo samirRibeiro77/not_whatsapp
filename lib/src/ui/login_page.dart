@@ -38,7 +38,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(child: Container(height: 8)),
                 TextField(
-                  autofocus: true,
                   keyboardType: TextInputType.visiblePassword,
                   style: TextStyle(fontSize: 20),
                   decoration: InputDecoration(
