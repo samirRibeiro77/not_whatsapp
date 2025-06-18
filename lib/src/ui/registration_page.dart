@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:not_whatsapp/src/model/user.dart';
+import 'package:not_whatsapp/src/helpers/validator.dart';
+import 'package:not_whatsapp/src/model/whatsapp_user.dart';
 import 'package:not_whatsapp/src/ui/home_page.dart';
 
 class RegistrationPage extends StatefulWidget {
@@ -21,6 +22,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
   bool _passwordObscure = true;
 
   _createUser() {
+    _errorMessage = "";
+
     var user = WhatsappUser(
       name: _nameController.text,
       email: _emailController.text,
@@ -28,7 +31,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     );
 
     setState(() {
-      _errorMessage = _validateFields(user);
+      _errorMessage = Validator.validateUser(user);
     });
 
     if (_errorMessage.isNotEmpty) {
@@ -51,19 +54,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
             _errorMessage = "Error creating user: ${e.toString()}";
           });
         });
-  }
-
-  String _validateFields(WhatsappUser user) {
-    if (user.name!.isEmpty || user.name!.length < 3) {
-      return "Name needs o have more than 3 characters";
-    }
-    if (user.email!.isEmpty || !user.email!.contains('@')) {
-      return "Email is not valid";
-    }
-    if (user.password!.isEmpty || user.password!.length < 6) {
-      return "Password needs o have more than 6 characters";
-    }
-    return "";
   }
 
   @override
