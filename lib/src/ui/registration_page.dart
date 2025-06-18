@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:not_whatsapp/src/model/user.dart';
+import 'package:not_whatsapp/src/ui/home_page.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -8,6 +11,8 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
+  final _auth = FirebaseAuth.instance;
+
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -16,23 +21,46 @@ class _RegistrationPageState extends State<RegistrationPage> {
   bool _passwordObscure = true;
 
   _createUser() {
-    var name = _nameController.text;
-    var email = _emailController.text;
-    var password = _passwordController.text;
+    var user = WhatsappUser(
+      name: _nameController.text,
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
 
     setState(() {
-      _errorMessage = _validateFields(name, email, password);
+      _errorMessage = _validateFields(user);
     });
+
+    if (_errorMessage.isNotEmpty) {
+      return;
+    }
+
+    _auth
+        .createUserWithEmailAndPassword(
+          email: user.email!,
+          password: user.password!,
+        )
+        .then((firebaseUser) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HomePage()),
+          );
+        })
+        .catchError((e) {
+          setState(() {
+            _errorMessage = "Error creating user: ${e.toString()}";
+          });
+        });
   }
 
-  String _validateFields(String name, String email, String password) {
-    if (name.isEmpty || name.length < 3) {
+  String _validateFields(WhatsappUser user) {
+    if (user.name!.isEmpty || user.name!.length < 3) {
       return "Name needs o have more than 3 characters";
     }
-    if (email.isEmpty || !email.contains('@')) {
+    if (user.email!.isEmpty || !user.email!.contains('@')) {
       return "Email is not valid";
     }
-    if (password.isEmpty || password.length < 6) {
+    if (user.password!.isEmpty || user.password!.length < 6) {
       return "Password needs o have more than 6 characters";
     }
     return "";
@@ -104,10 +132,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       borderRadius: BorderRadius.circular(32),
                     ),
                     suffixIcon: IconButton(
-                      icon: Icon(_passwordObscure
-                          ? Icons.visibility
-                          : Icons.visibility_off),
-                      onPressed: (){
+                      icon: Icon(
+                        _passwordObscure
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                      ),
+                      onPressed: () {
                         setState(() {
                           _passwordObscure = !_passwordObscure;
                         });
