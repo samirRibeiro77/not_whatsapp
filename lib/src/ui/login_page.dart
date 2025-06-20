@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:not_whatsapp/src/ui/home_page.dart';
 import 'package:not_whatsapp/src/ui/registration_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -9,6 +11,31 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _auth = FirebaseAuth.instance;
+
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  _login() {
+    var email = _emailController.text;
+    var password = _passwordController.text;
+
+    _auth
+        .signInWithEmailAndPassword(
+          email: email,
+          password: password,
+        )
+        .then((firebaseUser) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HomePage()),
+          );
+        })
+        .catchError((e) {
+          print(e);
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,6 +50,7 @@ class _LoginPageState extends State<LoginPage> {
                 Image.asset("assets/images/logo.png", width: 200, height: 150),
                 SizedBox(child: Container(height: 32)),
                 TextField(
+                  controller: _emailController,
                   autofocus: true,
                   keyboardType: TextInputType.emailAddress,
                   style: TextStyle(fontSize: 20),
@@ -38,6 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(child: Container(height: 8)),
                 TextField(
+                  controller: _passwordController,
                   keyboardType: TextInputType.visiblePassword,
                   style: TextStyle(fontSize: 20),
                   decoration: InputDecoration(
@@ -52,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(child: Container(height: 16)),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: _login,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                     padding: EdgeInsets.fromLTRB(32, 16, 32, 16),

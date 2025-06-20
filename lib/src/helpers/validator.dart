@@ -8,7 +8,7 @@ class Validator {
     if (user.email!.isEmpty || !user.email!.contains('@')) {
       return "Email is not valid";
     }
-    if (user.password!.isEmpty || user.password!.length < 6) {
+    if (user.password!.isEmpty) {
       return "Password needs o have more than 6 characters";
     }
     return "";
