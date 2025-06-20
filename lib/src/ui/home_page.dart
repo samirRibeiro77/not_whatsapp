@@ -19,10 +19,6 @@ class _HomePageState extends State<HomePage>
 
   final List<String> _menuItems = ["Settings", "Logout"];
 
-  _getUserData() {
-    var user = _auth.currentUser;
-  }
-
   _menuChoice(String menu) {
     switch (menu) {
       case "Settings":
@@ -43,8 +39,6 @@ class _HomePageState extends State<HomePage>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
-
-    _getUserData();
   }
 
   @override
