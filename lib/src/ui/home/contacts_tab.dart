@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:not_whatsapp/src/helpers/firebase.dart';
 import 'package:not_whatsapp/src/model/chat.dart';
+import 'package:not_whatsapp/src/model/whatsapp_user.dart';
 
 class ContactsTab extends StatefulWidget {
   const ContactsTab({super.key});
@@ -9,56 +13,65 @@ class ContactsTab extends StatefulWidget {
 }
 
 class _ContactsTabState extends State<ContactsTab> {
-  final List<Chat> _chats = [
-    Chat(
-      "Vanessa",
-      "Ultima mensagem",
-      "https://firebasestorage.googleapis.com/v0/b/flutter-first-app-sjr77.firebasestorage.app/o/whatsapp%2FuserProfile%2Fperfil1.jpg?alt=media&token=f9d44c8c-92d0-4502-aa5f-93bbaeb83034",
-    ),
-    Chat(
-      "João",
-      "Ultima mensagem",
-      "https://firebasestorage.googleapis.com/v0/b/flutter-first-app-sjr77.firebasestorage.app/o/whatsapp%2FuserProfile%2Fperfil2.jpg?alt=media&token=a1753c35-131a-4036-a56a-1e6c1f7ce2ee",
-    ),
-    Chat(
-      "Beatriz",
-      "Ultima mensagem",
-      "https://firebasestorage.googleapis.com/v0/b/flutter-first-app-sjr77.firebasestorage.app/o/whatsapp%2FuserProfile%2Fperfil3.jpg?alt=media&token=e68c97da-1945-4b4f-b201-a072282904c8",
-    ),
-    Chat(
-      "Caio",
-      "Ultima mensagem",
-      "https://firebasestorage.googleapis.com/v0/b/flutter-first-app-sjr77.firebasestorage.app/o/whatsapp%2FuserProfile%2Fperfil4.jpg?alt=media&token=d040390f-af48-46f5-b9c1-79ce19332224",
-    ),
-    Chat(
-      "Jamilton",
-      "Ultima mensagem",
-      "https://firebasestorage.googleapis.com/v0/b/flutter-first-app-sjr77.firebasestorage.app/o/whatsapp%2FuserProfile%2Fperfil5.jpg?alt=media&token=a51de80c-0055-4af8-ad77-bf232ac4f888",
-    ),
-  ];
+  final _db = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
+
+  Future<List<WhatsappUser>> _getContacts() async {
+    var currentEmail = _auth.currentUser?.email;
+
+    var querySnapshot = await _db
+        .collection(FirebaseHelpers.collections.user)
+        .get();
+    List<WhatsappUser> contacts = [];
+
+    for (var snapshot in querySnapshot.docs) {
+      var contact = WhatsappUser.fromJson(snapshot.data());
+      if (contact.email == currentEmail) continue;
+
+      contacts.add(contact);
+    }
+
+    return contacts;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: _chats.length,
-      itemBuilder: (context, index) {
-        var chat = _chats[index];
+    return FutureBuilder(
+      future: _getContacts(),
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+          case ConnectionState.waiting:
+            return Center(
+              child: Column(
+                children: [Text("Loading..."), CircularProgressIndicator()],
+              ),
+            );
+          case ConnectionState.active:
+          case ConnectionState.done:
+            return ListView.builder(
+              itemCount: snapshot.data?.length,
+              itemBuilder: (context, index) {
+                var contactList = snapshot.data;
+                var contact = contactList?[index];
 
-        return ListTile(
-          contentPadding: EdgeInsets.fromLTRB(16, 8, 16, 8),
-          leading: CircleAvatar(
-            maxRadius: 30,
-            backgroundColor: Colors.grey,
-            backgroundImage: NetworkImage(chat.userPicture),
-          ),
-          title: Text(
-            chat.name,
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16
-            ),
-          )
-        );
+                return ListTile(
+                  contentPadding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+                  leading: CircleAvatar(
+                    maxRadius: 30,
+                    backgroundColor: Colors.grey,
+                    backgroundImage: contact?.profilePicture != null
+                        ? NetworkImage(contact?.profilePicture ?? "")
+                        : null,
+                  ),
+                  title: Text(
+                    contact?.name ?? "",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  )
+                );
+              },
+            );
+        }
       },
     );
   }
