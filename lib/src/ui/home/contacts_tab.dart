@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:not_whatsapp/src/helpers/firebase.dart';
-import 'package:not_whatsapp/src/model/chat.dart';
 import 'package:not_whatsapp/src/model/whatsapp_user.dart';
+import 'package:not_whatsapp/src/ui/route_generator.dart';
 
 class ContactsTab extends StatefulWidget {
   const ContactsTab({super.key});
@@ -34,6 +34,10 @@ class _ContactsTabState extends State<ContactsTab> {
     return contacts;
   }
 
+  _openChat(WhatsappUser contact) {
+    Navigator.pushNamed(context, RouteGenerator.chat, arguments: contact);
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -56,6 +60,7 @@ class _ContactsTabState extends State<ContactsTab> {
                 var contact = contactList?[index];
 
                 return ListTile(
+                  onTap: () => _openChat(contact!),
                   contentPadding: EdgeInsets.fromLTRB(16, 8, 16, 8),
                   leading: CircleAvatar(
                     maxRadius: 30,
