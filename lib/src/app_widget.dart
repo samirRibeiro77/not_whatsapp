@@ -11,7 +11,11 @@ class AppWidget extends StatelessWidget {
       title: "Not Whatsapp",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromRGBO(07, 94, 84, 1)),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Color.fromRGBO(07, 94, 84, 1),
+          secondary: Color.fromRGBO(18, 140, 126, 1),
+          tertiary: Color.fromRGBO(37, 211, 102, 1),
+        ),
         appBarTheme: AppBarTheme(
           backgroundColor: Color.fromRGBO(07, 94, 84, 1),
           foregroundColor: Colors.white,
@@ -23,7 +27,7 @@ class AppWidget extends StatelessWidget {
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white38,
           labelStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        )
+        ),
       ),
       initialRoute: RouteGenerator.initial,
       onGenerateRoute: RouteGenerator.generateRoutes,
