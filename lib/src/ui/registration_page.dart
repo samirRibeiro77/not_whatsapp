@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:not_whatsapp/src/helpers/firebase.dart';
 import 'package:not_whatsapp/src/helpers/validator.dart';
 import 'package:not_whatsapp/src/model/whatsapp_user.dart';
-import 'package:not_whatsapp/src/ui/home_page.dart';
+import 'package:not_whatsapp/src/ui/route_generator.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -47,14 +47,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
           password: user.password!,
         )
         .then((firebaseUser) {
-          _saveUserData(
-            firebaseUser: firebaseUser.user!,
-            whatsappUser: user
-          );
+          _saveUserData(firebaseUser: firebaseUser.user!, whatsappUser: user);
 
-          Navigator.pushReplacement(
+          Navigator.pushNamedAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => HomePage()),
+            RouteGenerator.home,
+            (_) => false,
           );
         })
         .catchError((e) {
@@ -64,8 +62,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
         });
   }
 
-  _saveUserData({required User firebaseUser, required WhatsappUser whatsappUser}) {
-    _db.collection(FirebaseHelpers.collections.user).doc(firebaseUser.uid).set(whatsappUser.toJson());
+  _saveUserData({
+    required User firebaseUser,
+    required WhatsappUser whatsappUser,
+  }) {
+    _db
+        .collection(FirebaseHelpers.collections.user)
+        .doc(firebaseUser.uid)
+        .set(whatsappUser.toJson());
   }
 
   @override

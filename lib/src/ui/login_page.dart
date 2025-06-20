@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:not_whatsapp/src/ui/home_page.dart';
 import 'package:not_whatsapp/src/ui/registration_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:not_whatsapp/src/ui/route_generator.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -28,10 +28,7 @@ class _LoginPageState extends State<LoginPage> {
           password: password,
         )
         .then((firebaseUser) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => HomePage()),
-          );
+          Navigator.pushReplacementNamed(context, RouteGenerator.home);
         })
         .catchError((e) {
           print(e);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:not_whatsapp/src/helpers/wrapper.dart';
+import 'package:not_whatsapp/src/ui/route_generator.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({super.key});
@@ -24,6 +25,8 @@ class AppWidget extends StatelessWidget {
           labelStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         )
       ),
+      initialRoute: RouteGenerator.initial,
+      onGenerateRoute: RouteGenerator.generateRoutes,
       home: Wrapper(),
     );
   }

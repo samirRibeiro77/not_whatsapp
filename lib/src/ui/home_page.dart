@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:not_whatsapp/src/ui/home/chats_tab.dart';
 import 'package:not_whatsapp/src/ui/home/contacts_tab.dart';
-import 'package:not_whatsapp/src/ui/login_page.dart';
+import 'package:not_whatsapp/src/ui/route_generator.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -36,10 +36,7 @@ class _HomePageState extends State<HomePage>
 
   _logout() async {
     await _auth.signOut();
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => LoginPage()),
-    );
+    Navigator.pushReplacementNamed(context, RouteGenerator.login);
   }
 
   @override
