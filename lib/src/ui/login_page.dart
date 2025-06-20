@@ -16,6 +16,8 @@ class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  bool _passwordObscure = true;
+
   _login() {
     var email = _emailController.text;
     var password = _passwordController.text;
@@ -68,6 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                 TextField(
                   controller: _passwordController,
                   keyboardType: TextInputType.visiblePassword,
+                  obscureText: _passwordObscure,
                   style: TextStyle(fontSize: 20),
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.fromLTRB(32, 16, 32, 16),
@@ -76,6 +79,18 @@ class _LoginPageState extends State<LoginPage> {
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(32),
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _passwordObscure
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _passwordObscure = !_passwordObscure;
+                        });
+                      },
                     ),
                   ),
                 ),
