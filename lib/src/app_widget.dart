@@ -28,6 +28,10 @@ class AppWidget extends StatelessWidget {
           unselectedLabelColor: Colors.white38,
           labelStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: Color.fromRGBO(18, 140, 126, 1),
+          foregroundColor: Colors.white
+        ),
       ),
       initialRoute: RouteGenerator.initial,
       onGenerateRoute: RouteGenerator.generateRoutes,
