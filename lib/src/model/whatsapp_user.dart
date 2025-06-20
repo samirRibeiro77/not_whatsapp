@@ -1,15 +1,21 @@
 class WhatsappUser {
-  String? name, email, password;
+  String? uid, name, email, password, profilePicture;
 
-  WhatsappUser({this.name, this.email, this.password});
+  WhatsappUser({
+    this.uid,
+    this.name,
+    this.email,
+    this.password,
+    this.profilePicture,
+  });
 
-
-  WhatsappUser.fromJson(Map<String, dynamic> json){
-    this.name = json["name"];
-    this.email = json["email"];
+  WhatsappUser.fromJson(Map<String, dynamic> json, {this.uid}) {
+    name = json["name"];
+    email = json["email"];
+    profilePicture = json["profilePicture"];
   }
 
   Map<String, dynamic> toJson() {
-    return {"name": name, "email": email};
+    return {"name": name, "email": email, "profilePicture": profilePicture};
   }
 }

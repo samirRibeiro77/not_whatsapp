@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage>
   _menuChoice(String menu) {
     switch (menu) {
       case "Settings":
-        Navigator.pushReplacementNamed(context, RouteGenerator.settings);
+        Navigator.pushNamed(context, RouteGenerator.settings);
         break;
       case "Logout":
         _logout();
