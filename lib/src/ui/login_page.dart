@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
           password: password,
         )
         .then((firebaseUser) {
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => HomePage()),
           );

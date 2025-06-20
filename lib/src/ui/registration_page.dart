@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:not_whatsapp/src/helpers/firebase.dart';
 import 'package:not_whatsapp/src/helpers/validator.dart';
 import 'package:not_whatsapp/src/model/whatsapp_user.dart';
 import 'package:not_whatsapp/src/ui/home_page.dart';
@@ -13,6 +15,7 @@ class RegistrationPage extends StatefulWidget {
 
 class _RegistrationPageState extends State<RegistrationPage> {
   final _auth = FirebaseAuth.instance;
+  final _db = FirebaseFirestore.instance;
 
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
@@ -44,7 +47,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
           password: user.password!,
         )
         .then((firebaseUser) {
-          Navigator.push(
+          _saveUserData(
+            firebaseUser: firebaseUser.user!,
+            whatsappUser: user
+          );
+
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => HomePage()),
           );
@@ -54,6 +62,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
             _errorMessage = "Error creating user: ${e.toString()}";
           });
         });
+  }
+
+  _saveUserData({required User firebaseUser, required WhatsappUser whatsappUser}) {
+    _db.collection(FirebaseHelpers.collections.user).doc(firebaseUser.uid).set(whatsappUser.toJson());
   }
 
   @override
