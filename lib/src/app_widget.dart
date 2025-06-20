@@ -15,7 +15,13 @@ class AppWidget extends StatelessWidget {
           backgroundColor: Color.fromRGBO(07, 94, 84, 1),
           foregroundColor: Colors.white,
           elevation: 2,
-          shadowColor: Colors.black
+          shadowColor: Colors.black,
+        ),
+        tabBarTheme: TabBarThemeData(
+          indicatorColor: Colors.white,
+          labelColor: Colors.white,
+          unselectedLabelColor: Colors.white38,
+          labelStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         )
       ),
       home: Wrapper(),
