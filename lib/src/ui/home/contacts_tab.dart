@@ -25,7 +25,7 @@ class _ContactsTabState extends State<ContactsTab> {
     List<WhatsappUser> contacts = [];
 
     for (var snapshot in querySnapshot.docs) {
-      var contact = WhatsappUser.fromJson(snapshot.data());
+      var contact = WhatsappUser.fromJson(snapshot.data(), uid: snapshot.id);
       if (contact.email == currentEmail) continue;
 
       contacts.add(contact);
@@ -46,11 +46,7 @@ class _ContactsTabState extends State<ContactsTab> {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
           case ConnectionState.waiting:
-            return Center(
-              child: Column(
-                children: [Text("Loading..."), CircularProgressIndicator()],
-              ),
-            );
+            return Center(child: CircularProgressIndicator());
           case ConnectionState.active:
           case ConnectionState.done:
             return ListView.builder(
@@ -72,7 +68,7 @@ class _ContactsTabState extends State<ContactsTab> {
                   title: Text(
                     contact?.name ?? "",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  )
+                  ),
                 );
               },
             );

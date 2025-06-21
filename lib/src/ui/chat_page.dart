@@ -16,7 +16,23 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.contact.name!)),
+      appBar: AppBar(
+        title: Row(
+          children: [
+            CircleAvatar(
+              maxRadius: 20,
+              backgroundColor: Colors.grey,
+              backgroundImage: widget.contact.profilePicture != null
+                  ? NetworkImage(widget.contact.profilePicture ?? "")
+                  : null,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 8),
+              child: Text(widget.contact.name!),
+            ),
+          ],
+        ),
+      ),
       body: Container(
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
@@ -28,7 +44,12 @@ class _ChatPageState extends State<ChatPage> {
         child: SafeArea(
           child: Container(
             padding: EdgeInsets.all(8),
-            child: Column(children: [MessagesListview(), MessageBox()]),
+            child: Column(
+              children: [
+                MessagesListview(),
+                MessageBox(contact: widget.contact),
+              ],
+            ),
           ),
         ),
       ),
