@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:not_whatsapp/src/model/whatsapp_user.dart';
 import 'package:not_whatsapp/src/ui/chat/message_box.dart';
+import 'package:not_whatsapp/src/ui/chat/messages_listview.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key, required this.contact});
@@ -21,18 +22,13 @@ class _ChatPageState extends State<ChatPage> {
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/background.png"),
-            fit: BoxFit.cover
+            fit: BoxFit.cover,
           ),
         ),
         child: SafeArea(
           child: Container(
-            child: Container(
-              padding: EdgeInsets.all(8),
-              child: Column(children: [
-                Text("Mensagens..."),
-                MessageBox()
-              ]),
-            ),
+            padding: EdgeInsets.all(8),
+            child: Column(children: [MessagesListview(), MessageBox()]),
           ),
         ),
       ),
