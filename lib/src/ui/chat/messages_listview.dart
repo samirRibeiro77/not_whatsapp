@@ -39,6 +39,7 @@ class _MessagesListviewState extends State<MessagesListview> {
             .collection(FirebaseHelpers.collections.messages)
             .doc(_auth.currentUser?.uid)
             .collection(widget.contact.uid!)
+            .orderBy("timestamp")
             .snapshots(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
