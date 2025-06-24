@@ -16,4 +16,6 @@ class FirebaseHelpersStorage {
   const FirebaseHelpersStorage();
 
   String get userProfile => "whatsapp/userProfile";
+
+  String get messagePicture => "whatsapp/messagePicture";
 }

@@ -84,10 +84,12 @@ class _MessagesListviewState extends State<MessagesListview> {
                           color: color,
                           borderRadius: BorderRadius.all(Radius.circular(8)),
                         ),
-                        child: Text(
-                          message.message,
-                          style: TextStyle(fontSize: 16),
-                        ),
+                        child: message.type == "text"
+                            ? Text(
+                                message.message,
+                                style: TextStyle(fontSize: 16),
+                              )
+                            : Image.network(message.mediaUrl),
                       ),
                     ),
                   );
