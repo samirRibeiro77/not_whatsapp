@@ -1,6 +1,5 @@
 class Message {
-  final String _from, _to;
-  late String _type;
+  late String _from, _to, _type;
   String? _message, _mediaUrl;
 
   Message.text(this._from, this._to, this._message) {
@@ -11,8 +10,20 @@ class Message {
     _type = "media";
   }
 
+  Message.fromJson(Map<String, dynamic> json) {
+    _from = json["from"];
+    _message = json["message"];
+    _mediaUrl = json["mediaUrl"];
+    _type = json["type"];
+  }
+
   Map<String, dynamic> toJson() {
-    return {"message": _message, "mediaUrl": _mediaUrl, "type": _type};
+    return {
+      "from": _from,
+      "message": _message,
+      "mediaUrl": _mediaUrl,
+      "type": _type,
+    };
   }
 
   String get from => _from;

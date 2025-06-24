@@ -46,7 +46,7 @@ class _ChatPageState extends State<ChatPage> {
             padding: EdgeInsets.all(8),
             child: Column(
               children: [
-                MessagesListview(),
+                MessagesListview(contact: widget.contact),
                 MessageBox(contact: widget.contact),
               ],
             ),

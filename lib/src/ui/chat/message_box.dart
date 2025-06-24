@@ -37,6 +37,7 @@ class _MessageBoxState extends State<MessageBox> {
     }
 
     _sendMessage(message.from, message.to, message);
+    _sendMessage(message.to, message.from, message);
     _messageController.clear();
   }
 
