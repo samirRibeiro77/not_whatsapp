@@ -10,6 +10,10 @@ class FirebaseHelpersCollections {
   String get user => "Whatsapp-User";
 
   String get messages => "Whatsapp-Messages";
+
+  String get chats => "Whatsapp-Chats";
+
+  String get lastChat => "last_chats";
 }
 
 class FirebaseHelpersStorage {
