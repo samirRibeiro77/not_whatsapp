@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:not_whatsapp/src/ui/registration_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:not_whatsapp/src/ui/route_generator.dart';
+import 'package:not_whatsapp/src/helpers/route_generator.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

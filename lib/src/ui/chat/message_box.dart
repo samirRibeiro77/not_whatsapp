@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:not_whatsapp/src/helpers/firebase.dart';
@@ -75,7 +76,11 @@ class _MessageBoxState extends State<MessageBox> {
       } else if (storageEvent.state == TaskState.success) {
         var url = await task.snapshot.ref.getDownloadURL();
 
-        var message = Message.media(_currentUser.uid!, widget.contact.uid!, url);
+        var message = Message.media(
+          _currentUser.uid!,
+          widget.contact.uid!,
+          url,
+        );
 
         _sendMessage(message.from, message.to, message);
         _sendMessage(message.to, message.from, message);
@@ -105,7 +110,7 @@ class _MessageBoxState extends State<MessageBox> {
       userPicture: widget.contact.profilePicture ?? "",
       lastMessage: message.message,
       type: message.type,
-     );
+    );
     chatFrom.save();
 
     var chatTo = Chat(
@@ -160,11 +165,13 @@ class _MessageBoxState extends State<MessageBox> {
               ),
             ),
           ),
-          FloatingActionButton(
-            onPressed: _sendText,
-            mini: true,
-            child: Icon(Icons.send),
-          ),
+          Platform.isIOS
+              ? CupertinoButton(onPressed: _sendText, child: Text("Send"))
+              : FloatingActionButton(
+                  onPressed: _sendText,
+                  mini: true,
+                  child: Icon(Icons.send),
+                ),
         ],
       ),
     );

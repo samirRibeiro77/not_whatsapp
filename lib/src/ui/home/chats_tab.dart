@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:not_whatsapp/src/helpers/firebase.dart';
 import 'package:not_whatsapp/src/model/chat.dart';
-import 'package:not_whatsapp/src/ui/route_generator.dart';
+import 'package:not_whatsapp/src/helpers/route_generator.dart';
 
 import '../../model/whatsapp_user.dart';
 
