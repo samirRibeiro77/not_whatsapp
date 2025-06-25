@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -18,29 +20,48 @@ class _MessagesListviewState extends State<MessagesListview> {
   final _db = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
 
+  final _streamController = StreamController<QuerySnapshot>.broadcast();
+  final _scrollController = ScrollController();
+
   String _userId = "";
 
-  _getUserData() {
+  _messagesListener() {
+    final stream = _db
+        .collection(FirebaseHelpers.collections.messages)
+        .doc(_auth.currentUser?.uid)
+        .collection(widget.contact.uid!)
+        .orderBy("timestamp")
+        .snapshots();
+
+    stream.listen((data) {
+      _streamController.add(data);
+      Timer(
+        Duration(seconds: 1),
+        () => _scrollController.jumpTo(
+          _scrollController.position.maxScrollExtent,
+        ),
+      );
+    });
+  }
+
+  _initData() {
     _userId = _auth.currentUser!.uid;
+
+    _messagesListener();
   }
 
   @override
   void initState() {
     super.initState();
 
-    _getUserData();
+    _initData();
   }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: StreamBuilder(
-        stream: _db
-            .collection(FirebaseHelpers.collections.messages)
-            .doc(_auth.currentUser?.uid)
-            .collection(widget.contact.uid!)
-            .orderBy("timestamp")
-            .snapshots(),
+        stream: _streamController.stream,
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
@@ -60,10 +81,11 @@ class _MessagesListviewState extends State<MessagesListview> {
               var messageDocs = querySnapshot.docs.toList();
 
               return ListView.builder(
+                controller: _scrollController,
                 itemCount: querySnapshot.docs.length,
                 itemBuilder: (context, index) {
                   var maxWidth = MediaQuery.of(context).size.width * 0.8;
-                  var message = Message.fromJson(messageDocs[index].data());
+                  var message = Message.fromDocument(messageDocs[index]);
 
                   var color = _userId == message.from
                       ? Color(0xffd2ffa5)

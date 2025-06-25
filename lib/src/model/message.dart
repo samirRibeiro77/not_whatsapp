@@ -23,6 +23,14 @@ class Message {
     _timestamp = json["timestamp"];
   }
 
+  Message.fromDocument(QueryDocumentSnapshot json) {
+    _from = json["from"];
+    _message = json["message"];
+    _mediaUrl = json["mediaUrl"];
+    _type = json["type"];
+    _timestamp = json["timestamp"];
+  }
+
   Map<String, dynamic> toJson() {
     return {
       "from": _from,
