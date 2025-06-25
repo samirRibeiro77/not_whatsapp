@@ -139,7 +139,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 SizedBox(child: Container(height: 10)),
                 ElevatedButton(
-                  onPressed: _updateUser,
+                  onPressed: () {
+                    _updateUser();
+                    Navigator.pop(context);
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.tertiary,
                   ),
