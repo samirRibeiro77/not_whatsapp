@@ -12,8 +12,6 @@ class Wrapper extends StatelessWidget {
       body: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
-            print("---  Wrapper  ---");
-            print(snapshot.toString());
             if (snapshot.connectionState == ConnectionState.waiting) {
               return CircularProgressIndicator();
             }

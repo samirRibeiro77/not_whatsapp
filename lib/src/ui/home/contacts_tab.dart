@@ -49,6 +49,9 @@ class _ContactsTabState extends State<ContactsTab> {
             return Center(child: CircularProgressIndicator());
           case ConnectionState.active:
           case ConnectionState.done:
+            if (snapshot.hasError) {
+              return Center(child: Text("Error loading contacts"));
+            }
             return ListView.builder(
               itemCount: snapshot.data?.length,
               itemBuilder: (context, index) {

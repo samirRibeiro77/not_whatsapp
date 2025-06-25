@@ -30,6 +30,15 @@ class Chat {
     _type = json["type"];
   }
 
+  Chat.fromDocument(QueryDocumentSnapshot json) {
+    from = json["from"];
+    to = json["to"];
+    userPicture = json["userPicture"];
+    name = json["name"];
+    _lastMessage = json["lastMessage"];
+    _type = json["type"];
+  }
+
   void save() async {
     await FirebaseFirestore.instance
         .collection(FirebaseHelpers.collections.chats)
