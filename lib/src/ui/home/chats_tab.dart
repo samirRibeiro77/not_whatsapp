@@ -103,4 +103,11 @@ class _ChatsTabState extends State<ChatsTab> {
       },
     );
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    _streamController.close();
+  }
 }
