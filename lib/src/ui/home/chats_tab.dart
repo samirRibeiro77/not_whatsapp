@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:not_whatsapp/src/helpers/firebase.dart';
 import 'package:not_whatsapp/src/model/chat.dart';
+import 'package:not_whatsapp/src/ui/route_generator.dart';
 
 import '../../model/whatsapp_user.dart';
 
@@ -83,6 +84,15 @@ class _ChatsTabState extends State<ChatsTab> {
 
                 return ListTile(
                   contentPadding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+                  onTap: () => Navigator.pushNamed(
+                    context,
+                    RouteGenerator.chat,
+                    arguments: WhatsappUser(
+                      uid: chat.to,
+                      name: chat.name,
+                      profilePicture: chat.userPicture,
+                    ),
+                  ),
                   leading: CircleAvatar(
                     maxRadius: 30,
                     backgroundColor: Colors.grey,
